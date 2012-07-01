@@ -1,0 +1,47 @@
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.List;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+
+public class Crawler {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 * @throws MalformedURLException 
+	 * @throws FailingHttpStatusCodeException 
+	 */
+	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		// TODO Auto-generated method stub
+		final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
+	    final HtmlPage page = webClient.getPage("http://www.dota2wiki.com/");
+
+	    //get list of all divs
+	    final List<HtmlDivision> radiantChamps = (List<HtmlDivision>) page.getByXPath("/html/body/div[3]/div[3]/div[4]/table[4]/tbody/tr[2]/td/div/table/tbody/tr[3]/td/div/table/tbody/tr[3]/td/div/div/table/tbody/tr/td[2]/div");
+	    final List<HtmlDivision> direChamps = (List<HtmlDivision>) page.getByXPath("/html/body/div[3]/div[3]/div[4]/table[4]/tbody/tr[2]/td/div/table/tbody/tr[3]/td/div/table/tbody/tr[3]/td[2]/div/div/table/tbody/tr/td/div");
+	    
+	    //print radiant champ names
+	    for (HtmlDivision radiantChamp : radiantChamps) {
+	    	if(radiantChamp.asText().toLowerCase() != "null")
+	    	System.out.println(radiantChamp.asText());
+	    }
+	    
+	    //print dire champ names
+	    for (HtmlDivision direChamp : direChamps) {
+	    	if(direChamp.asText().toLowerCase() != "null")
+	    		System.out.println(direChamp.asText());
+	    }
+//	    
+	    get div which has a 'name' attribute of 'John'
+	    //final HtmlDivision champ1 = (HtmlDivision) rows.getByXPath("//div[@name='John']").get(0);
+
+	    webClient.closeAllWindows();
+	}
+
+}
